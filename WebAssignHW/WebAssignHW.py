@@ -35,7 +35,7 @@ def all_homework(auth_url, homepage_url, user, pwd):
 		time.sleep(3)
 		selenium.get(homepage_url)
 	except:
-		
+
 		print('Could Not Connect')
 		exit()
 
@@ -51,10 +51,10 @@ def all_homework(auth_url, homepage_url, user, pwd):
 			print("**OPTIONS**")
 			print(options[class_num].text)
 			course=options[class_num].text
-			if len(options)>=1: 
+			if len(options)>=1:
 				options[class_num].click()
 				selenium.find_element_by_css_selector('#js-page-top > div > div > div:nth-child(1) > nav > div > button').click()
-			else: 
+			else:
 				break
 			homework[course]=get_hw(selenium,course) #stores assingments in form of {'class':{'hw','due'}}
 			class_num += 1
@@ -75,6 +75,7 @@ user	     = key[2].replace('user=','')
 pwd	     = key[3].replace('pass=','')
 tz	     = key[4].replace('timezone=','')
 directory_to_write = key[5].replace('directory=','')
+directory_to_write = str.rstrip(directory_to_write)
 file.close()
 
 homework = all_homework(auth_url, homepage_url, user, pwd) #Grabs all homework onto list
@@ -82,16 +83,13 @@ homework = all_homework(auth_url, homepage_url, user, pwd) #Grabs all homework o
 cal = Calendar()
 
 for course, assignment in homework.items():
-	print(course)
-	print(assignment)
 	for homework, due, link in assignment:
 		time = parse(due).astimezone(gettz(tz))
 		print('{} {} {} {}'.format(homework, due, time, link))
 		e = Event(name=homework, begin=time-timedelta(hours=1), end=time, duration=None, description=course, created=None, last_modified=None, location=link, url=None, transparent=None, alarms=None, attendees=None, categories=None, status=None, organizer=None, geo=None, classification=None)
 		cal.events.add(e)
 
-
-with open(os.path.join(directory_to_write, 'WebAssign.ics'), "w") as f:
+with open(directory_to_write + 'WebAssign.ics', "w") as f:
     f.writelines(cal)
 
 end_time = datetime.now() - start_time
