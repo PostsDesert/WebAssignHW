@@ -86,7 +86,7 @@ for course, assignment in homework.items():
 	for homework, due, link in assignment:
 		time = parse(due).astimezone(gettz(tz))
 		print('{} {} {} {}'.format(homework, due, time, link))
-		e = Event(name=homework, begin=time-timedelta(hours=1), end=time, duration=None, description=course, created=None, last_modified=None, location=link, url=None, transparent=None, alarms=None, attendees=None, categories=None, status=None, organizer=None, geo=None, classification=None)
+		e = Event(name=homework, begin=time, end=time, duration=None, description=course, created=None, last_modified=None, location=link, url=None, transparent=None, alarms=None, attendees=None, categories=None, status=None, organizer=None, geo=None, classification=None)
 		cal.events.add(e)
 
 with open(directory_to_write + 'WebAssign.ics', "w") as f:
