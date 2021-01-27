@@ -30,8 +30,8 @@ def all_homework(auth_url, homepage_url, user, pwd):
 		selenium.implicitly_wait(5)
 
 		#Sends username and pass
-		userfield=selenium.find_element_by_id("email").send_keys(user)
-		pwdfield= selenium.find_element_by_id("cengagePassword").send_keys(pwd)
+		userfield=selenium.find_element_by_id("idp-discovery-username").send_keys(user)
+		pwdfield= selenium.find_element_by_id("okta-signin-password").send_keys(pwd)
 		time.sleep(3)
 		selenium.get(homepage_url)
 	except:
